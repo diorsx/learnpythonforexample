@@ -62,20 +62,7 @@ def use_logging(level='warn'):
         return _inner
     return _outer
     
-#构建带参数的装饰器2
-def time_limit(interval):
-    def _outer(func):
-        def handler():
-            raise RuntimeError()
-        def _inner(*args, **kwargs):
-            signal.signal(signal.SIGALRM, handler)
-            signal.alarm(interval)
-            res = func(*args, **kwargs)
-            signal.alarm(0)
-            return res
-        return _inner
-    return _outer
-    
+
 #使用带参数的装饰器
 @use_logging(level='warn')
 def get_response(url="http://www.baidu.com"):
@@ -85,10 +72,20 @@ def get_response(url="http://www.baidu.com"):
         print u"请求返回码：%s" %r.status_code
     except Exception, e:
         print "error: %s" %e
-get_response()
 
-#使用带参数的装饰器
-@time_limit(5)
+#decorator with no parameters defined by class
+class fn_timer_cls(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        self.t_start = time.time()
+        self.result = self.func(*args, **kwargs)
+        self.t_end = time.time()
+        print "Total time running %s: %s seconds" %(self.func.__name__, self.t_end-self.t_start)
+        return self.result
+
+@fn_timer_cls
 def get_response(url="http://www.baidu.com"):
     import requests
     try:
@@ -96,5 +93,24 @@ def get_response(url="http://www.baidu.com"):
         print u"请求返回码：%s" %r.status_code
     except Exception, e:
         print "error: %s" %e
-get_response()
+
+
+# 装饰器实例: 结果缓存
+def resultcache(type='mem'):
+    def _outer(func):
+        if type == 'mem':
+            cache = {}
+        @functools.wraps(func)
+        def _inner(*args, **kwargs):
+            key = str(args)+str(kwargs)
+            if key not in cache:
+                cache[key] = func(*args, **kwargs)
+            return cache[key]
+        return _inner
+    return _outer
+
+#使用带参数的装饰器
+@resultcache(type='mem')
+def add(x=1, y=2):
+    return x+y
 

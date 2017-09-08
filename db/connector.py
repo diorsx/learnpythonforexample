@@ -306,7 +306,5 @@ def update(sql, *args):
 
     
 if __name__ == '__main__':
-    create_engine(user='radius', password='feeyo123', database='FYVPN', host='192.168.5.12', port=3306)
-    r = select_int('select count(*) from radgroupreply')
-    print r
+    pass
         

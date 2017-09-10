@@ -9,7 +9,7 @@ import time, logging
 
 class Field(object):
     '''
-    映射为表中的字段
+    table field
     '''
     _count = 0
     def __init__(self, **kw):

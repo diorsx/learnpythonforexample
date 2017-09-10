@@ -10,7 +10,7 @@ import time, uuid, functools, threading, logging
 # global engine object:
 engine = None    
 
-#À©Õ¹pyÖÐ×ÖµäÀàÐÍ
+#扩展字典类型
 class Dict(dict):
     def __init__(self, names=(), values=(), **kw):
         super(Dict, self).__init__(**kw)
@@ -26,7 +26,25 @@ class Dict(dict):
     def __setattr__(self, key, value):
         self[key] = value
 
-#¶¨ÒåÒì³£        
+def next_id(t=None):
+    '''
+    Return next id as 50-char string.
+
+    Args:
+        t: unix timestamp, default to None and using time.time().
+    '''
+    if t is None:
+        t = time.time()
+    return '%015d%s000' % (int(t * 1000), uuid.uuid4().hex)
+
+def _profiling(start, sql=''):
+    t = time.time() - start
+    if t > 0.1:
+        logging.warning('[PROFILING] [DB] %s: %s' % (t, sql))
+    else:
+        logging.info('[PROFILING] [DB] %s: %s' % (t, sql))
+
+#异常处理       
 class DBError(Exception):
     pass
 
@@ -36,11 +54,10 @@ class MultiColumnsError(DBError):
 class _LazyConnection(object):
 
     '''
-    ¹ÜÀíÊý¾Ý¿âÁ¬½ÓÉúÃüÆÚ£¬´Óengine»ñÈ¡Á¬½Ó
-    cursor: Á¬½ÓµÄÓÎ±ê
-    commit: Ìá½»ÐÞ¸Ä
-    rollback: »Ø¹ö
-    cleanup: ÇåÀíÁ¬½Ó
+    cursor: get cursor from mysql connnection
+    commit: 
+    rollback:
+    cleanup:
     '''
 
     def __init__(self):
@@ -70,9 +87,9 @@ class _Engine(object):
 
     '''
     property:
-        _connect: Êý¾ÝÁ¬½ÓµÄ³éÏó
+        _connect: init connector
     method:
-        connect: Ö´ÐÐÊý¾Ý¿âÁ¬½Ó·½·¨
+        connect: get connetor from mysql.connector modules
     '''
     def __init__(self, connect):
         self._connect = connect
@@ -96,11 +113,10 @@ def create_engine(user, password, database, host='127.0.0.1', port=3306, **kw):
     logging.info('Init mysql engine <%s> ok.' % hex(id(engine)))        
         
 '''
-´´½¨Ò»¸öthreadlocal ¶ÔÏó£¬¶ÔÓÚ²»Í¬µÄÏß³Ì£¬Ê¹ÓÃ²»Í¬µÄÊý¾Ý¿âÁ´½Ó
+继承自threading.local
 '''  
 class _DbCtx(threading.local):
     '''
-    Á¬½ÓÐÅÏ¢±£´æÔÚ´Ë¶ÔÏóÖÐ
     '''
     def __init__(self):
         self.connection = None
@@ -120,9 +136,9 @@ class _DbCtx(threading.local):
     def cursor(self):
         return self.connection.cursor()
 
-#thread-local±äÁ¿
 _db_ctx = _DbCtx()
         
+#连接上下文
 class _ConnectionCtx(object):
     '''
     _ConnectionCtx object that can open and close connection context. _ConnectionCtx object can be nested and only the most 

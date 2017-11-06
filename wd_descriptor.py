@@ -2,10 +2,10 @@
 '''
 Author: wood
 Date: 2017-09-04
-Desc: ÊµÏÖpythonÃèÊöÆ÷
+Desc: å®ç°pythonæè¿°å™¨
 '''
 
-#¶¨ÒåÁË__get__, __set__, __del__·½·¨Àà³ÆÎªÃèÊöÆ÷
+#å®šä¹‰äº†__get__, __set__, __del__æ–¹æ³•ç±»ç§°ä¸ºæè¿°å™¨
 class Descriptor(object):  
     def __get__(self, obj, type=None):  
             return self.obj
@@ -16,9 +16,9 @@ class Descriptor(object):
 
 d = Descriptor()
 d.name = "Tom"
-print "Descriptor {0}£¬It's name is {1}".format(Descriptor.__name__, d.name)
+print "Descriptor {0}ï¼ŒIt's name is {1}".format(Descriptor.__name__, d.name)
 
-#Ê¹ÓÃÃèÊöÆ÷ÊµÏÖpythonµÄProperty
+#ä½¿ç”¨æè¿°å™¨å®ç°pythonçš„Property
 class WdProperty(object):
     def __init__(self, fget=None, fset=None, fdel=None):
         super(WdProperty, self).__init__()
@@ -67,13 +67,13 @@ class People:
     def set_age(self, value):
         self._age = age
     
-    #Ê¹ÓÃÃèÊöÆ÷À´ĞŞÊÎ
+    #ä½¿ç”¨æè¿°å™¨æ¥ä¿®é¥°
     age = WdProperty(get_age, set_age)
        
 people = People()
-print "³õÊ¼ÓÃ»§Ãû: {0}, ³õÊ¼ÄêÁä: {1}".format(people.name, people.age)
+print "åˆå§‹ç”¨æˆ·å: {0}, åˆå§‹å¹´é¾„: {1}".format(people.name, people.age)
 
-#Í¨¹ıÃèÊöÆ÷À´ĞŞ¸ÄÊôĞÔ
+#é€šè¿‡æè¿°å™¨æ¥ä¿®æ”¹å±æ€§
 people.name = "Cat"
 people.age = 16
-print "ĞŞ¸ÄºóÓÃ»§Ãû: {0}, ĞŞ¸ÄºóÄêÁä: {1}".format(people.name, people.age)
+print "ä¿®æ”¹åç”¨æˆ·å: {0}, ä¿®æ”¹åå¹´é¾„: {1}".format(people.name, people.age)

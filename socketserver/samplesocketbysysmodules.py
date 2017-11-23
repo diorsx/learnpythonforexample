@@ -2,27 +2,27 @@
 '''
 Author: wood
 Date: 2017-08-28
-Desc: Ê¹ÓÃ·â×°µÄSocketServerÄ£¿éÀ´´î½¨tcp server£¬´ËexampleÖĞÓĞ¶à¸öÊµÀı
+Desc: ä½¿ç”¨å°è£…çš„SocketServeræ¨¡å—æ¥æ­å»ºtcp serverï¼Œæ­¤exampleä¸­æœ‰å¤šä¸ªå®ä¾‹
 '''
 from SocketServer import TCPServer,BaseRequestHandler,StreamRequestHandler,ThreadingTCPServer,ForkingTCPServer
 import traceback  
 
 class MyBaseRequestHandlerr(BaseRequestHandler):  
     """ 
-    #´ÓBaseRequestHandler¼Ì³Ğ£¬²¢ÖØĞ´handle·½·¨ 
+    #ä»BaseRequestHandlerç»§æ‰¿ï¼Œå¹¶é‡å†™handleæ–¹æ³• 
     """  
     def handle(self):  
-        #Ñ­»·¼àÌı£¨¶ÁÈ¡£©À´×Ô¿Í»§¶ËµÄÊı¾İ  
+        #å¾ªç¯ç›‘å¬ï¼ˆè¯»å–ï¼‰æ¥è‡ªå®¢æˆ·ç«¯çš„æ•°æ®  
         while True:  
-            #µ±¿Í»§¶ËÖ÷¶¯¶Ï¿ªÁ¬½ÓÊ±£¬self.recv(1024)»áÅ×³öÒì³£  
+            #å½“å®¢æˆ·ç«¯ä¸»åŠ¨æ–­å¼€è¿æ¥æ—¶ï¼Œself.recv(1024)ä¼šæŠ›å‡ºå¼‚å¸¸  
             try:  
-                #Ò»´Î¶ÁÈ¡1024×Ö½Ú,²¢È¥³ıÁ½¶ËµÄ¿Õ°××Ö·û(°üÀ¨¿Õ¸ñ,TAB,\r,\n)  
+                #ä¸€æ¬¡è¯»å–1024å­—èŠ‚,å¹¶å»é™¤ä¸¤ç«¯çš„ç©ºç™½å­—ç¬¦(åŒ…æ‹¬ç©ºæ ¼,TAB,\r,\n)  
                 data = self.request.recv(1024).strip()  
                   
-                #self.client_addressÊÇ¿Í»§¶ËµÄÁ¬½Ó(host, port)µÄÔª×é  
+                #self.client_addressæ˜¯å®¢æˆ·ç«¯çš„è¿æ¥(host, port)çš„å…ƒç»„  
                 print "receive from ({0}): {1}".format(self.client_address, data)
                   
-                #×ª»»³É´óĞ´ºóĞ´»Ø(·¢Éúµ½)¿Í»§¶Ë  
+                #è½¬æ¢æˆå¤§å†™åå†™å›(å‘ç”Ÿåˆ°)å®¢æˆ·ç«¯  
                 self.request.sendall(data.upper()+'\r\n')  
             except:  
                 traceback.print_exc()  
@@ -31,19 +31,19 @@ class MyBaseRequestHandlerr(BaseRequestHandler):
 
 class MyStreamRequestHandlerr(StreamRequestHandler):  
     """ 
-    #¼Ì³ĞStreamRequestHandler£¬²¢ÖØĞ´handle·½·¨ 
-    #£¨StreamRequestHandler¼Ì³Ğ×ÔBaseRequestHandler£© 
+    #ç»§æ‰¿StreamRequestHandlerï¼Œå¹¶é‡å†™handleæ–¹æ³• 
+    #ï¼ˆStreamRequestHandlerç»§æ‰¿è‡ªBaseRequestHandlerï¼‰ 
     """  
     def handle(self):  
         while True:  
-            #¿Í»§¶ËÖ÷¶¯¶Ï¿ªÁ¬½ÓÊ±£¬self.rfile.readline()»áÅ×³öÒì³£  
+            #å®¢æˆ·ç«¯ä¸»åŠ¨æ–­å¼€è¿æ¥æ—¶ï¼Œself.rfile.readline()ä¼šæŠ›å‡ºå¼‚å¸¸  
             try:  
-                #self.rfileÀàĞÍÊÇsocket._fileobject,¶ÁĞ´Ä£Ê½ÊÇ"rb",·½·¨ÓĞ  
+                #self.rfileç±»å‹æ˜¯socket._fileobject,è¯»å†™æ¨¡å¼æ˜¯"rb",æ–¹æ³•æœ‰  
                 #read,readline,readlines,write(data),writelines(list),close,flush  
                 data = self.rfile.readline().strip()  
                 print "receive from ({0}): {1}".format(self.client_address, data)  
                   
-                #self.wfileÀàĞÍÊÇsocket._fileobject,¶ÁĞ´Ä£Ê½ÊÇ"wb"  
+                #self.wfileç±»å‹æ˜¯socket._fileobject,è¯»å†™æ¨¡å¼æ˜¯"wb"  
                 self.wfile.write(data.upper()+'\r\n')  
             except:  
                 traceback.print_exc()  
@@ -51,29 +51,29 @@ class MyStreamRequestHandlerr(StreamRequestHandler):
                
 if __name__ == "__main__":  
     #telnet 127.0.0.1 9999  
-    host = ""       #Ö÷»úÃû£¬¿ÉÒÔÊÇip,ÏñlocalhostµÄÖ÷»úÃû,»ò""  
-    port = 12580     #¶Ë¿Ú  
+    host = ""       #ä¸»æœºåï¼Œå¯ä»¥æ˜¯ip,åƒlocalhostçš„ä¸»æœºå,æˆ–""  
+    port = 12580     #ç«¯å£  
     addr = (host, port)  
-    flag=raw_input("ÇëÑ¡ÔñÔËĞĞÄ£Ê½:")
+    flag=raw_input("è¯·é€‰æ‹©è¿è¡Œæ¨¡å¼:")
     if flag=='1':
-        #socket server 1:TCPServer+BaseRequestHandler,µ¥¿Í»§¶ËÁ¬½Ó£¬µ¥×Ö·û½ÓÊÕ
-        #¹¹ÔìTCPServer¶ÔÏó
+        #socket server 1:TCPServer+BaseRequestHandler,å•å®¢æˆ·ç«¯è¿æ¥ï¼Œå•å­—ç¬¦æ¥æ”¶
+        #æ„é€ TCPServerå¯¹è±¡
         server = TCPServer(addr, MyBaseRequestHandlerr)  
-        #Æô¶¯·şÎñ¼àÌı  
+        #å¯åŠ¨æœåŠ¡ç›‘å¬  
         server.serve_forever()  
 
     elif flag=='2':
-        #socket server 2:µ¥¿Í»§¶ËÁ¬½Ó£¬¶à×Ö·û½ÓÊÕ
+        #socket server 2:å•å®¢æˆ·ç«¯è¿æ¥ï¼Œå¤šå­—ç¬¦æ¥æ”¶
         server = TCPServer(addr, MyStreamRequestHandlerr)  
         server.serve_forever()  
 
     elif flag=='3':
-        #socket server 3£ºÓÃ¶àÏß³ÌÊµÏÖ¶à¿Í»§¶ËÁ¬½Ó£¬¶à×Ö·û½ÓÊÕ
+        #socket server 3ï¼šç”¨å¤šçº¿ç¨‹å®ç°å¤šå®¢æˆ·ç«¯è¿æ¥ï¼Œå¤šå­—ç¬¦æ¥æ”¶
         server = ThreadingTCPServer(addr, MyStreamRequestHandlerr)  
         server.serve_forever()
     elif flag=='4':
-        #socket server 4£ºÓÃ¶à½ø³ÌÊµÏÖ¶à¿Í»§¶ËÁ¬½Ó£¬¶à×Ö·û½ÓÊÕ
+        #socket server 4ï¼šç”¨å¤šè¿›ç¨‹å®ç°å¤šå®¢æˆ·ç«¯è¿æ¥ï¼Œå¤šå­—ç¬¦æ¥æ”¶
         server = ForkingTCPServer(addr, MyStreamRequestHandlerr)
         server.serve_forever()
     else:
-        print "ÇëÊäÈë1-4ĞòºÅ:"
+        print "è¯·è¾“å…¥1-4åºå·:"

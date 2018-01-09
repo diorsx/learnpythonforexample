@@ -70,7 +70,7 @@ output(level=WARNING)
 output(level=ERROR)
 output(level=CRITICAL)
 
-#定义一个StreamHandler，将DEBUG级别或更高的日志信息打印到标准错误，并将其添加到当前的日志处理对象#
+#定义一个StreamHandler，将DEBUG级别或更高的日志信息打印到标准错误，并将其添加到当前的日志处理对象
 ch = logging.StreamHandler(stream=None)
 formatter = logging.Formatter('%(asctime)-5s: %(levelname)-8s %(message)s')
 ch.setFormatter(formatter)

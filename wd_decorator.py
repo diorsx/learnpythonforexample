@@ -48,7 +48,6 @@ def get_response(url="http://www.baidu.com"):
         print u"请求返回码：%s" %r.status_code
     except Exception, e:
         print "error: %s" %e
-
         
 #构建带参数的装饰器1
 def use_logging(level='warn'):
@@ -66,7 +65,6 @@ def use_logging(level='warn'):
             print_log("End {0} at {1}".format(func.__name__, time.ctime()))
         return _inner
     return _outer
-    
 
 #使用带参数的装饰器
 @use_logging(level='warn')
@@ -98,7 +96,6 @@ def get_response(url="http://www.baidu.com"):
         print u"请求返回码：%s" %r.status_code
     except Exception, e:
         print "error: %s" %e
-
 
 # 装饰器实例: 结果缓存
 def resultcache(type='mem'):

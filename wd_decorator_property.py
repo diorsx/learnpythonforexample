@@ -27,13 +27,16 @@ class NoNormalStudent(object):
         return self.__score
     def set_score(self, score):
         if score < 0 or score > 100:
-            raise ValueError('invalid score')
+            raise ValueError('invalid score: %s' %score)
         self.__score = score
 
 student2 = NoNormalStudent('Lili', 60)
 student2.get_score()
-student2.set_score(-1)
-student2.set_score(101)
+student2.set_score(100)
+try:
+    student2.set_score(-1)
+except Exception as e:
+    print str(e)
 
 #Python支持高阶函数, 可以用装饰器函数把 get/set 方法“装饰”成属性调用
 class NoNormalStudent(object):
@@ -48,10 +51,13 @@ class NoNormalStudent(object):
     @score.setter
     def score(self, score):
         if score < 0 or score > 100:
-            raise ValueError('invalid score')
+            raise ValueError('invalid score: %s' %score)
         self.__score = score
 
 student3 = NoNormalStudent('Lili', 60)
 #贿赂老师，修改分数
 student3.score = 100
-student3.score = 101
+try:
+    student3.score = 101
+except Exception as e:
+    print str(e)

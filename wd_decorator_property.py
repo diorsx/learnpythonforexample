@@ -2,10 +2,9 @@
 # -*- coding:utf-8 -*-
 '''
 Author: wood
-Date: 2017-08-28
+Date: 2018年6月8日12:00:00
 Desc: python装饰器在属性赋值中的应用
 '''
-
 
 class NormalStudent(object):
     def __init__(self, name, score):

@@ -1,0 +1,16 @@
+---monitor_daemon的配置文件，用于进程的配置信息
+sendmail: true
+process:
+  - pro_path: "/usr/local/Data/bin/"
+    pro_exec: "/usr/local/jdk1.8.0_77/bin/java"
+    pro_name: "DataClient.jar"
+    pro_cmd: "/usr/local/jdk1.8.0_77/bin/java -jar DataClient.jar >/dev/null 2>&1"
+    pro_log: "/dev/null"
+    enable: true
+
+  - pro_path: "/usr/local/monitor-test/"
+    pro_exec: "/usr/local/jdk1.8.0_77/bin/java"
+    pro_name: "monitor.jar"
+    pro_cmd: "/usr/local/jdk1.8.0_77/bin/java -jar monitor.jar >/dev/null 2>&1"
+    pro_log: "/dev/null"
+    enable: true

@@ -245,8 +245,8 @@ def _args_parser():
     import argparse
     parser = argparse.ArgumentParser()
     #添加位置参数，参数值可为stop, start, restart
-    parser.add_argument('action')
-    parser.add_argument('--daemon', '-d', action='store_true', help='把进程放入后台运行')
+    parser.add_argument('action', choices=['stop', 'start', 'restart'])
+    parser.add_argument('--daemon', '-d', action='store_true', help='process running in the backend')
     args = parser.parse_args()
     return args
 
